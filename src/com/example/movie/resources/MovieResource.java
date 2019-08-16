@@ -4,9 +4,7 @@ import com.example.movie.dao.MovieDao;
 import com.example.movie.dao.MovieDaoImpl;
 import com.example.movie.model.Movie;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.List;
 
@@ -18,5 +16,13 @@ public class MovieResource {
     @Produces(MediaType.APPLICATION_XML)
     public List<Movie> getAll() {
         return dao.getAll();
+    }
+
+    @POST
+    @Path("movie")
+    @Produces(MediaType.APPLICATION_XML)
+    @Consumes(MediaType.APPLICATION_XML)
+    public Movie insert(Movie movie) {
+        return dao.insertOrUpdate(movie);
     }
 }

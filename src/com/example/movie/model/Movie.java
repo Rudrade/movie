@@ -2,9 +2,16 @@ package com.example.movie.model;
 
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.time.LocalDate;
 
+@XmlType(propOrder = {
+        "id",
+        "title",
+        "description",
+        "releaseDate"
+})
 @XmlRootElement
 @Entity
 @Table(name = "Movies")

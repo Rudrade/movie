@@ -5,6 +5,8 @@ import com.example.movie.model.Movie;
 import java.util.List;
 
 public interface MovieDao {
-    void create(Movie movie);
+    Movie insertOrUpdate(Movie movie);
+    void delete(Movie movie);
+    Movie getById(int id);
     List<Movie> getAll();
 }
