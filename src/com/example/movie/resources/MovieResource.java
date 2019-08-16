@@ -24,7 +24,7 @@ public class MovieResource {
     @Produces(MediaType.APPLICATION_XML)
     @Consumes(MediaType.APPLICATION_XML)
     public Movie insert(Movie movie) {
-        return dao.insertOrUpdate(movie);
+        return dao.insert(movie);
     }
 
     @DELETE
@@ -37,5 +37,13 @@ public class MovieResource {
         } catch (MovieNotFound movieNotFound) {
             return "Não existem filmes com o id inserido.";
         }
+    }
+
+    @PUT
+    @Path("update")
+    @Produces(MediaType.APPLICATION_XML)
+    @Consumes(MediaType.APPLICATION_XML)
+    public Movie update(Movie movie) {
+        return dao.update(movie);
     }
 }

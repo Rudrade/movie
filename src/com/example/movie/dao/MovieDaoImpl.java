@@ -14,12 +14,22 @@ public class MovieDaoImpl implements MovieDao {
     // Method to insert a movie into the database
     @Override
     @Transactional
-    public Movie insertOrUpdate(Movie movie) {
+    public Movie insert(Movie movie) {
         Session session = sessionFactory.openSession();
         session.beginTransaction();
         session.save(movie);
         session.getTransaction().commit();
         session.close();
+        return movie;
+    }
+
+    @Override
+    @Transactional
+    public Movie update(Movie movie) {
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
+        session.update(movie);
+        session.getTransaction().commit();
         return movie;
     }
 
