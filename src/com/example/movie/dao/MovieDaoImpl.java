@@ -26,22 +26,31 @@ public class MovieDaoImpl implements MovieDao {
     // Method to delete a movie from the database
     @Override
     @Transactional
-    public void delete(Movie movie) {
-        Session session = sessionFactory.openSession();
-        session.beginTransaction();
-        session.delete(movie);
-        session.getTransaction().commit();
-        session.close();
+    public void deleteById(int id) throws MovieNotFound {
+        Movie movie = getById(id);
+        if (movie != null) {
+            Session session = sessionFactory.openSession();
+            session.beginTransaction();
+            session.delete(movie);
+            session.getTransaction().commit();
+            session.close();
+        } else {
+            throw new MovieNotFound();
+        }
     }
 
     // Method that return the movie given an id
     @Override
     @Transactional
-    public Movie getById(int id) {
+    public Movie getById(int id) throws MovieNotFound {
         Session session = sessionFactory.openSession();
         Movie movie = session.get(Movie.class, id);
         session.close();
-        return movie;
+        if (movie == null) {
+            throw new MovieNotFound();
+        } else {
+            return movie;
+        }
     }
 
     // Method that returns all movies in the DB
