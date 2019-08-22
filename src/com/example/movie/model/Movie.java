@@ -1,31 +1,48 @@
 package com.example.movie.model;
 
+import com.example.movie.model.tables.PersonMovie;
+import com.example.movie.util.LocalDateAdapter;
+
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 @XmlType(propOrder = {
         "id",
         "title",
         "description",
-        "releaseDate"
+        "releaseDate",
+        "country",
+        "persons"
 })
 @XmlRootElement
 @Entity
-@Table(name = "Movies")
+@Table(name = "movies")
 public class Movie {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID", nullable = false, unique = true)
+    @Column(name = "id", nullable = false, unique = true)
     private int id;
-    @Column(name = "TITLE", nullable = false, unique = true)
+
+    @Column(name = "title", nullable = false, unique = true)
     private String title;
-    @Column(name = "DESCRIPTION")
+
+    @Column(name = "description")
     private String description;
-    @Column(name = "RELEASE_DATE")
+
+    @Column(name = "release_date")
     private LocalDate releaseDate;
+
+    @OneToMany(mappedBy = "person")
+    private Set<PersonMovie> persons = new HashSet<>();
+
+    @ManyToOne
+    @JoinColumn(name = "country_id", nullable = false)
+    private Country country;
 
     public int getId() {
         return id;
@@ -49,6 +66,22 @@ public class Movie {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Set<PersonMovie> getPersons() {
+        return persons;
+    }
+
+    public void setPersons(Set<PersonMovie> persons) {
+        this.persons = persons;
+    }
+
+    public Country getCountry() {
+        return country;
+    }
+
+    public void setCountry(Country country) {
+        this.country = country;
     }
 
     // Annotation to marshall/unmarshall the date to xml format

@@ -12,5 +12,11 @@
         <property name="show_sql">true</property>
         
         <mapping class="com.example.movie.model.Movie"/>
+        <mapping class="com.example.movie.model.Country"/>
+        <mapping class="com.example.movie.model.Occupation"/>
+        <mapping class="com.example.movie.model.Person"/>
+
+        <mapping class="com.example.movie.model.tables.PersonMovie"/>
+        <mapping class="com.example.movie.model.tables.PersonOccupation"/>
     </session-factory>
 </hibernate-configuration>

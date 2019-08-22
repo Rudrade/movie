@@ -1,4 +1,4 @@
-package com.example.movie.model;
+package com.example.movie.util;
 
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 import java.time.LocalDate;

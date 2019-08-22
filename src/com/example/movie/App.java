@@ -1,5 +1,7 @@
 package com.example.movie;
 
+import com.example.movie.resources.RoleResource;
+import com.example.movie.util.DebugExceptionMapper;
 import com.example.movie.resources.MovieResource;
 
 import javax.ws.rs.ApplicationPath;
@@ -17,6 +19,8 @@ public class App extends Application {
     public Set<Class<?>> getClasses() {
         HashSet hashSet = new HashSet<Class<?>>();
         hashSet.add(MovieResource.class);
+        hashSet.add(DebugExceptionMapper.class);
+        hashSet.add(RoleResource.class);
         return hashSet;
     }
 }

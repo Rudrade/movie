@@ -11,6 +11,7 @@ public class HibernateUtil {
             SESSION_FACTORY = new Configuration().configure().buildSessionFactory();
         } catch (Throwable e) {
             System.err.println("Initial SessionFactory creation failed." + e);
+            e.printStackTrace();
             throw new ExceptionInInitializerError(e);
         }
     }
