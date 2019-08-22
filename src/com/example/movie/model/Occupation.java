@@ -16,6 +16,17 @@ public class Occupation {
     @Column(name = "id", nullable = false, unique = true)
     private int id;
 
+    public String getOccupation() {
+        return occupation;
+    }
+
+    public void setOccupation(String occupation) {
+        this.occupation = occupation;
+    }
+
+    @Column(name = "occupation", nullable = false, unique = true)
+    private String occupation;
+/*
     @Column(name = "occupation", nullable = false, unique = true)
     @OneToMany(mappedBy = "person")
     private Set<PersonOccupation> occupation = new HashSet<>();
@@ -26,7 +37,7 @@ public class Occupation {
 
     public void setOccupation(Set<PersonOccupation> occupation) {
         this.occupation = occupation;
-    }
+    }*/
 
     public int getId() {
         return id;

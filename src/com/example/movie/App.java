@@ -1,9 +1,8 @@
 package com.example.movie;
 
 import com.example.movie.resources.CountryResource;
-import com.example.movie.resources.RoleResource;
-import com.example.movie.util.DebugExceptionMapper;
 import com.example.movie.resources.MovieResource;
+import com.example.movie.resources.OccupationResource;
 
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
@@ -20,7 +19,7 @@ public class App extends Application {
     public Set<Class<?>> getClasses() {
         HashSet hashSet = new HashSet<Class<?>>();
         hashSet.add(MovieResource.class);
-        hashSet.add(RoleResource.class);
+        hashSet.add(OccupationResource.class);
         hashSet.add(CountryResource.class);
         return hashSet;
     }

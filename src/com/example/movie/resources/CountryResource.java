@@ -59,11 +59,16 @@ public class CountryResource {
     @Produces(MediaType.APPLICATION_XML)
     @Consumes(MediaType.APPLICATION_XML)
     public Response update(Country country) {
-        dao.update(country);
-
-        return Response
-                .status(200)
-                .build();
+        try {
+            dao.update(country);
+            return Response
+                    .status(200)
+                    .build();
+        } catch (Exception e) {
+            return Response
+                    .status(404)
+                    .build();
+        }
     }
 
     @DELETE

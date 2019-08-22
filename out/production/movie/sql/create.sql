@@ -6,8 +6,9 @@ DROP TABLE IF EXISTS occupation;
 DROP TABLE IF EXISTS person;
 
 CREATE TABLE occupation (
+	id INT NOT NULL UNIQUE AUTO_INCREMENT,
 	occupation VARCHAR(255) NOT NULL UNIQUE,
-    PRIMARY KEY(occupation)
+    PRIMARY KEY(id)
 );
 
 CREATE TABLE country (
@@ -31,17 +32,17 @@ CREATE TABLE person (
     first_name VARCHAR(255) NOT NULL,
     last_name VARCHAR(255),
     birth_date DATE,
-    country VARCHAR(255),
+    country_id INT,
     PRIMARY KEY(id),
-    FOREIGN KEY(country) REFERENCES country(country)
+    FOREIGN KEY(country_id) REFERENCES country(id)
 );
 
 CREATE TABLE person_occupation(
 	person_id INT NOT NULL,
-    occupation VARCHAR(255) NOT NULL,
-    PRIMARY KEY (person_id, occupation),
+    occupation_id INT NOT NULL,
+    PRIMARY KEY (person_id, occupation_id),
     FOREIGN KEY (person_id) REFERENCES person(id),
-    FOREIGN KEY (occupation) REFERENCES occupation(occupation)
+    FOREIGN KEY (occupation_id) REFERENCES occupation(id)
 );
 
 CREATE TABLE person_movie (

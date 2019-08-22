@@ -9,13 +9,13 @@ import org.hibernate.SessionFactory;
 import javax.transaction.Transactional;
 import java.util.List;
 
-public class RoleDao {
+public class OccupationDao {
     private final SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 
     @Transactional
     public List<Occupation> getAll() {
         Session session = sessionFactory.openSession();
-        List<Occupation> occupationList = session.createQuery("FROM Role").list();
+        List<Occupation> occupationList = session.createQuery("FROM Occupation ORDER BY id").list();
         session.close();
         return occupationList;
     }
@@ -55,9 +55,15 @@ public class RoleDao {
     }
 
     @Transactional
-    public void delete(Occupation occupation) {
+    public void deleteById(int id) throws NotFound {
         Session session = sessionFactory.openSession();
         session.beginTransaction();
+        Occupation occupation = session.get(Occupation.class, id);
+
+        if (occupation == null) {
+            throw new NotFound();
+        }
+
         session.delete(occupation);
         session.getTransaction().commit();
         session.close();
