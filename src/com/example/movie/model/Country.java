@@ -16,7 +16,7 @@ public class Country {
     @Column(name = "country", nullable = false, unique = true)
     private String country;
 
-    @OneToMany(mappedBy = "id")
+    @OneToMany(mappedBy = "id", fetch = FetchType.EAGER)
     private List<Movie> movies;
 
     @OneToMany(mappedBy = "id")

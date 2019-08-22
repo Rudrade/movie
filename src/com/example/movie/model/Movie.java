@@ -5,6 +5,7 @@ import com.example.movie.util.LocalDateAdapter;
 
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.time.LocalDate;
@@ -16,7 +17,6 @@ import java.util.Set;
         "title",
         "description",
         "releaseDate",
-        "country",
         "persons"
 })
 @XmlRootElement
@@ -37,10 +37,10 @@ public class Movie {
     @Column(name = "release_date")
     private LocalDate releaseDate;
 
-    @OneToMany(mappedBy = "person")
+    @OneToMany(mappedBy = "person", fetch = FetchType.EAGER)
     private Set<PersonMovie> persons = new HashSet<>();
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "country_id", nullable = false)
     private Country country;
 
@@ -76,6 +76,7 @@ public class Movie {
         this.persons = persons;
     }
 
+    @XmlTransient
     public Country getCountry() {
         return country;
     }
