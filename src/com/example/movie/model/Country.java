@@ -1,12 +1,14 @@
 package com.example.movie.model;
 
 import javax.persistence.*;
-import javax.xml.bind.annotation.XmlRootElement;
-import java.util.List;
+import javax.xml.bind.annotation.*;
 
 @Entity
 @Table(name = "Country")
 @XmlRootElement
+@XmlType(propOrder = {
+        "id",
+        "country"})
 public class Country {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -15,12 +17,6 @@ public class Country {
 
     @Column(name = "country", nullable = false, unique = true)
     private String country;
-
-    @OneToMany(mappedBy = "id", fetch = FetchType.EAGER)
-    private List<Movie> movies;
-
-    @OneToMany(mappedBy = "id")
-    private List<Person> persons;
 
     public int getId() {
         return id;
@@ -36,21 +32,5 @@ public class Country {
 
     public void setCountry(String country) {
         this.country = country;
-    }
-
-    public List<Movie> getMovies() {
-        return movies;
-    }
-
-    public void setMovies(List<Movie> movies) {
-        this.movies = movies;
-    }
-
-    public List<Person> getPersons() {
-        return persons;
-    }
-
-    public void setPersons(List<Person> persons) {
-        this.persons = persons;
     }
 }

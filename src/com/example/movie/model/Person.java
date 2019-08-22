@@ -41,8 +41,7 @@ public class Person {
     @Column(name = "birth_date", nullable = false)
     private LocalDate birthDate;
 
-    @ManyToOne
-    @JoinColumn(name = "country_id", nullable = false)
+    @ManyToOne(fetch = FetchType.EAGER, targetEntity = Country.class)
     private Country country;
 
     @OneToMany(mappedBy = "movie")

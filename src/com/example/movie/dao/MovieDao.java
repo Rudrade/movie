@@ -65,7 +65,7 @@ public class MovieDao {
     @Transactional
     public List<Movie> getAll() {
         Session session = sessionFactory.openSession();
-        List<Movie> movieList = session.createQuery("from Movie").list();
+        List<Movie> movieList = session.createQuery("FROM Movie").list();
         session.close();
         return movieList;
     }

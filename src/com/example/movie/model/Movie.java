@@ -4,9 +4,7 @@ import com.example.movie.model.tables.PersonMovie;
 import com.example.movie.util.LocalDateAdapter;
 
 import javax.persistence.*;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
-import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.*;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.time.LocalDate;
 import java.util.HashSet;
@@ -17,31 +15,40 @@ import java.util.Set;
         "title",
         "description",
         "releaseDate",
+        "country",
         "persons"
 })
 @XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 @Entity
 @Table(name = "movies")
 public class Movie {
     @Id
+    @XmlElement
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, unique = true)
     private int id;
 
+    @XmlElement
     @Column(name = "title", nullable = false, unique = true)
     private String title;
 
+    @XmlElement
     @Column(name = "description")
     private String description;
 
     @Column(name = "release_date")
+    // Annotation to marshall/unmarshall the date to xml format
+    @XmlJavaTypeAdapter(LocalDateAdapter.class)
     private LocalDate releaseDate;
 
+    @XmlElement
     @OneToMany(mappedBy = "person", fetch = FetchType.EAGER)
     private Set<PersonMovie> persons = new HashSet<>();
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "country_id", nullable = false)
+    @XmlElement
+    @ManyToOne(fetch = FetchType.EAGER, targetEntity = Country.class)
+    @JoinColumn(name = "country_id")
     private Country country;
 
     public int getId() {
@@ -76,7 +83,6 @@ public class Movie {
         this.persons = persons;
     }
 
-    @XmlTransient
     public Country getCountry() {
         return country;
     }
@@ -85,8 +91,7 @@ public class Movie {
         this.country = country;
     }
 
-    // Annotation to marshall/unmarshall the date to xml format
-    @XmlJavaTypeAdapter(LocalDateAdapter.class)
+    @XmlTransient
     public LocalDate getReleaseDate() {
         return releaseDate;
     }
@@ -95,11 +100,12 @@ public class Movie {
         this.releaseDate = releaseDate;
     }
 
-    public Movie(int id, String title, String description, LocalDate releaseDate) {
-        this.id = id;
+    public Movie(String title, String description, LocalDate releaseDate, Set<PersonMovie> persons, Country country) {
         this.title = title;
         this.description = description;
         this.releaseDate = releaseDate;
+        this.persons = persons;
+        this.country = country;
     }
 
     public Movie() {
