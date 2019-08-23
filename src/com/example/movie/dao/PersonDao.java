@@ -27,7 +27,7 @@ public class PersonDao {
     public List<Person> getAll() {
         Session session = sessionFactory.openSession();
         session.beginTransaction();
-        List<Person> personList = session.createQuery("FROM Person").list();
+        List<Person> personList = session.createQuery("FROM Person ORDER BY id").list();
         session.close();
         return personList;
     }

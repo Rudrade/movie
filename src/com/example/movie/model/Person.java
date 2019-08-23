@@ -24,7 +24,7 @@ import java.util.Set;
 @XmlAccessorType(XmlAccessType.NONE)
 public class Person {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, unique = true)
     @XmlElement
     private int id;

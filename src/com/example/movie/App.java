@@ -1,4 +1,5 @@
-// TODO: Person Movie User Occupation
+// TODO: Occupation Movie User
+// TODO: Commentar tudo
 package com.example.movie;
 
 import com.example.movie.resources.CountryResource;
