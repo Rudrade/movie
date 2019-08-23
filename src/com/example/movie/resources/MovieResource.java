@@ -10,34 +10,36 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.List;
 
-@Path("movies")
+@Path("movie")
 public class MovieResource {
     private MovieDao dao = new MovieDao();
 
     @GET
     @Produces(MediaType.APPLICATION_XML)
-    public List<Movie> getAll() {
-        return dao.getAll();
+    public Response getAll() {
+        List<Movie> movieList = dao.getAll();
+        GenericEntity entity = new GenericEntity<List<Movie>>(movieList){};
+        return Response.status(200).entity(entity).build();
     }
 
     @POST
     @Path("add")
     @Produces(MediaType.APPLICATION_XML)
     @Consumes(MediaType.APPLICATION_XML)
-    public Movie insert(Movie movie) {
-        return dao.insert(movie);
+    public Response create(Movie movie) {
+         Movie m = dao.insert(movie);
+        return Response.status(201).entity(m).build();
     }
 
     @DELETE
     @Path("delete/{id}")
     @Produces(MediaType.TEXT_PLAIN)
-    public String deleteById(@PathParam("id") int id) {
+    public Response deleteById(@PathParam("id") int id) {
         try {
             dao.deleteById(id);
-            return "Filme apagado com sucesso.";
+            return Response.status(200).build();
         } catch (NotFound movieNotFound) {
-            movieNotFound.printStackTrace();
-            return null;
+            return Response.status(404).build();
         }
     }
 
@@ -45,19 +47,22 @@ public class MovieResource {
     @Path("update")
     @Produces(MediaType.APPLICATION_XML)
     @Consumes(MediaType.APPLICATION_XML)
-    public Movie update(Movie movie) {
-        return dao.update(movie);
+    public Response update(Movie movie) {
+        try {
+            dao.update(movie);
+            return Response.status(200).build();
+        } catch (Exception e) {
+            return Response.status(404).build();
+        }
     }
 
     @GET
-    @Path("movie/{id}")
+    @Path("{id}")
     @Produces(MediaType.APPLICATION_XML)
     public Response getById(@PathParam("id") int id)  {
         try {
             Movie movie = dao.getById(id);
-            return Response.status(Response.Status.OK)
-                    .entity(movie)
-                    .build();
+            return Response.status(200).entity(movie).build();
         } catch (NotFound e) {
             e.printStackTrace();
             return Response.status(404).build();
@@ -71,9 +76,7 @@ public class MovieResource {
         try {
             List<Movie> movieList = dao.getByKeyword(keyword);
             GenericEntity entity = new GenericEntity<List<Movie>>(movieList){};
-            return Response.status(Response.Status.OK)
-                    .entity(entity)
-                    .build();
+            return Response.status(Response.Status.OK).entity(entity).build();
         } catch (NotFound e) {
             e.printStackTrace();
             return Response.status(404).build();

@@ -19,10 +19,7 @@ public class PersonResource {
     public Response getAll() {
         List<Person> personList = dao.getAll();
         GenericEntity entity = new GenericEntity<List<Person>>(personList){};
-        return Response
-                .status(200)
-                .entity(entity)
-                .build();
+        return Response.status(200).entity(entity).build();
     }
 
     @GET
@@ -31,14 +28,9 @@ public class PersonResource {
     public Response getById(@PathParam("id") int id) {
         try {
             Person person = dao.getById(id);
-            return Response
-                    .status(200)
-                    .entity(person)
-                    .build();
+            return Response.status(200).entity(person).build();
         } catch (NotFound e) {
-            return Response
-                    .status(404)
-                    .build();
+            return Response.status(404).build();
         }
     }
 
@@ -48,10 +40,7 @@ public class PersonResource {
     @Consumes(MediaType.APPLICATION_XML)
     public Response create(Person person) {
         Person p = dao.create(person);
-        return Response
-                .status(201)
-                .entity(p)
-                .build();
+        return Response.status(201).entity(p).build();
     }
 
     @PUT
@@ -60,13 +49,9 @@ public class PersonResource {
     public Response update(Person person) {
         try {
             dao.update(person);
-            return Response
-                    .status(200)
-                    .build();
+            return Response.status(200).build();
         } catch (Exception e) {
-            return Response
-                    .status(404)
-                    .build();
+            return Response.status(404).build();
         }
     }
 
@@ -75,13 +60,9 @@ public class PersonResource {
     public Response deleteById(@PathParam("id") int id) {
         try {
             dao.deleteById(id);
-            return Response
-                    .status(200)
-                    .build();
+            return Response.status(200).build();
         } catch (NotFound e) {
-            return Response
-                    .status(404)
-                    .build();
+            return Response.status(404).build();
         }
     }
 }

@@ -42,7 +42,7 @@ public class Movie {
     private LocalDate releaseDate;
 
     @XmlElement
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "person_movie",
                 joinColumns = {@JoinColumn(name = "movie_id", referencedColumnName = "id")},
                 inverseJoinColumns = {@JoinColumn(name = "person_id", referencedColumnName = "id")})
