@@ -1,13 +1,11 @@
 package com.example.movie.model;
 
-import com.example.movie.model.tables.PersonMovie;
 import com.example.movie.util.LocalDateAdapter;
 
 import javax.persistence.*;
 import javax.xml.bind.annotation.*;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.time.LocalDate;
-import java.util.HashSet;
 import java.util.Set;
 
 @XmlType(propOrder = {
@@ -19,7 +17,7 @@ import java.util.Set;
         "persons"
 })
 @XmlRootElement
-@XmlAccessorType(XmlAccessType.FIELD)
+@XmlAccessorType(XmlAccessType.NONE)
 @Entity
 @Table(name = "movies")
 public class Movie {
@@ -40,11 +38,15 @@ public class Movie {
     @Column(name = "release_date")
     // Annotation to marshall/unmarshall the date to xml format
     @XmlJavaTypeAdapter(LocalDateAdapter.class)
+    @XmlElement
     private LocalDate releaseDate;
 
     @XmlElement
-    @OneToMany(mappedBy = "person", fetch = FetchType.EAGER)
-    private Set<PersonMovie> persons = new HashSet<>();
+    @ManyToMany
+    @JoinTable(name = "person_movie",
+                joinColumns = {@JoinColumn(name = "movie_id", referencedColumnName = "id")},
+                inverseJoinColumns = {@JoinColumn(name = "person_id", referencedColumnName = "id")})
+    private Set<Person> persons;
 
     @XmlElement
     @ManyToOne(fetch = FetchType.EAGER, targetEntity = Country.class)
@@ -75,14 +77,6 @@ public class Movie {
         this.description = description;
     }
 
-    public Set<PersonMovie> getPersons() {
-        return persons;
-    }
-
-    public void setPersons(Set<PersonMovie> persons) {
-        this.persons = persons;
-    }
-
     public Country getCountry() {
         return country;
     }
@@ -91,7 +85,6 @@ public class Movie {
         this.country = country;
     }
 
-    @XmlTransient
     public LocalDate getReleaseDate() {
         return releaseDate;
     }
@@ -100,14 +93,12 @@ public class Movie {
         this.releaseDate = releaseDate;
     }
 
-    public Movie(String title, String description, LocalDate releaseDate, Set<PersonMovie> persons, Country country) {
-        this.title = title;
-        this.description = description;
-        this.releaseDate = releaseDate;
-        this.persons = persons;
-        this.country = country;
+    @XmlTransient
+    public Set<Person> getPersons() {
+        return persons;
     }
 
-    public Movie() {
+    public void setPersons(Set<Person> persons) {
+        this.persons = persons;
     }
 }

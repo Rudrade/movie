@@ -7,6 +7,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 public class PersonDao {
     private final SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
@@ -20,6 +21,15 @@ public class PersonDao {
         session.close();
 
         return person;
+    }
+
+    @Transactional
+    public List<Person> getAll() {
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
+        List<Person> personList = session.createQuery("FROM Person").list();
+        session.close();
+        return personList;
     }
 
     @Transactional
@@ -45,9 +55,15 @@ public class PersonDao {
     }
 
     @Transactional
-    public void delete(Person person) {
+    public void deleteById(int id) throws NotFound {
         Session session = sessionFactory.openSession();
         session.beginTransaction();
+        Person person = session.get(Person.class, id);
+
+        if (person == null) {
+            throw new NotFound();
+        }
+
         session.delete(person);
         session.getTransaction().commit();
         session.close();

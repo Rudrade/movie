@@ -8,7 +8,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "Person_Occupation")
+@Table(name = "person_occupation")
 public class PersonOccupation implements Serializable {
     @EmbeddedId
     private PersonOccupationPK id;
@@ -16,11 +16,13 @@ public class PersonOccupation implements Serializable {
     @ManyToOne
     @MapsId("id")
     @JoinColumn(name = "id")
+    @Column(name = "person_id")
     private Person person;
 
     @ManyToOne
     @MapsId("id")
     @JoinColumn(name = "id")
+    @Column(name = "occupation_id")
     private Occupation occupation;
 
     public PersonOccupationPK getId() {

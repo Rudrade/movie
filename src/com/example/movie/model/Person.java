@@ -1,12 +1,10 @@
 package com.example.movie.model;
 
-import com.example.movie.model.tables.PersonMovie;
-import com.example.movie.model.tables.PersonOccupation;
+import com.example.movie.util.LocalDateAdapter;
 
 import javax.persistence.*;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlType;
-import java.io.Serializable;
+import javax.xml.bind.annotation.*;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
@@ -16,36 +14,48 @@ import java.util.Set;
         "firstName",
         "lastName",
         "birthDate",
-        "movies",
         "country",
-        "occupations"
+        "occupations",
+        "movies"
 })
 @Entity
 @Table(name = "person")
 @XmlRootElement
+@XmlAccessorType(XmlAccessType.NONE)
 public class Person {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, unique = true)
+    @XmlElement
     private int id;
 
+    @XmlElement
     @Column(name = "first_name", nullable = false)
     private String firstName;
 
+    @XmlElement
     @Column(name = "last_name")
     private String lastName;
 
-    @OneToMany(mappedBy = "person")
-    private Set<PersonOccupation> occupations = new HashSet<>();
+    @XmlElement
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "person_occupation",
+                joinColumns = {@JoinColumn(name="person_id", referencedColumnName="id")},
+                inverseJoinColumns = {@JoinColumn(name="occupation_id", referencedColumnName="id")})
+    private Set<Occupation> occupations;
 
+    @XmlElement
+    @XmlJavaTypeAdapter(LocalDateAdapter.class)
     @Column(name = "birth_date", nullable = false)
     private LocalDate birthDate;
 
+    @XmlElement
     @ManyToOne(fetch = FetchType.EAGER, targetEntity = Country.class)
     private Country country;
 
-    @OneToMany(mappedBy = "movie")
-    private Set<PersonMovie> movies = new HashSet<>();
+    @ManyToMany(mappedBy = "persons", fetch = FetchType.EAGER)
+    @XmlElement
+    private Set<Movie> movies = new HashSet<>();
 
     public int getId() {
         return id;
@@ -87,19 +97,20 @@ public class Person {
         this.country = country;
     }
 
-    public Set<PersonMovie> getMovies() {
-        return movies;
-    }
-
-    public void setMovies(Set<PersonMovie> movies) {
-        this.movies = movies;
-    }
-
-    public Set<PersonOccupation> getOccupations() {
+    public Set<Occupation> getOccupations() {
         return occupations;
     }
 
-    public void setOccupations(Set<PersonOccupation> occupations) {
+    public void setOccupations(Set<Occupation> occupations) {
         this.occupations = occupations;
+    }
+
+    @XmlTransient
+    public Set<Movie> getMovies() {
+        return movies;
+    }
+
+    public void setMovies(Set<Movie> movies) {
+        this.movies = movies;
     }
 }
