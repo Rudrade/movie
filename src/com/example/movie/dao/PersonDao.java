@@ -68,4 +68,19 @@ public class PersonDao {
         session.getTransaction().commit();
         session.close();
     }
+
+    @Transactional
+    public List<Person> search(String keyword) throws NotFound {
+        String sql = "FROM Person p WHERE p.firstName LIKE '%" + keyword + "%' OR p.lastName LIKE '%" + keyword + "%'";
+
+        Session session = sessionFactory.openSession();
+        List<Person> personList = session.createQuery(sql).list();
+        session.close();
+
+        if (personList.isEmpty()) {
+            throw new NotFound();
+        }
+
+        return personList;
+    }
 }

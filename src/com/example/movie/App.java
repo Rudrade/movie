@@ -1,11 +1,7 @@
-// TODO: Movie User
 // TODO: Commentar tudo
 package com.example.movie;
 
-import com.example.movie.resources.CountryResource;
-import com.example.movie.resources.MovieResource;
-import com.example.movie.resources.OccupationResource;
-import com.example.movie.resources.PersonResource;
+import com.example.movie.resources.*;
 import com.example.movie.util.DebugExceptionMapper;
 
 import javax.ws.rs.ApplicationPath;
@@ -26,6 +22,7 @@ public class App extends Application {
         hashSet.add(OccupationResource.class);
         hashSet.add(CountryResource.class);
         hashSet.add(PersonResource.class);
+        hashSet.add(CategoryResource.class);
 
         hashSet.add(DebugExceptionMapper.class);
         return hashSet;

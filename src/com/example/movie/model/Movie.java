@@ -14,7 +14,8 @@ import java.util.Set;
         "description",
         "releaseDate",
         "country",
-        "persons"
+        "persons",
+        "categories"
 })
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.NONE)
@@ -52,6 +53,13 @@ public class Movie {
     @ManyToOne(fetch = FetchType.EAGER, targetEntity = Country.class)
     @JoinColumn(name = "country_id")
     private Country country;
+
+    @XmlElement
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(name = "movie_category",
+                joinColumns = {@JoinColumn(name = "movie_id", referencedColumnName = "id")},
+                inverseJoinColumns = {@JoinColumn(name = "category_id", referencedColumnName = "id")})
+    private Set<Category> categories;
 
     public int getId() {
         return id;
@@ -100,5 +108,14 @@ public class Movie {
 
     public void setPersons(Set<Person> persons) {
         this.persons = persons;
+    }
+
+    @XmlTransient
+    public Set<Category> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(Set<Category> categories) {
+        this.categories = categories;
     }
 }
