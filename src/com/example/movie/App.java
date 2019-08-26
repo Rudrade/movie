@@ -23,6 +23,7 @@ public class App extends Application {
         hashSet.add(CountryResource.class);
         hashSet.add(PersonResource.class);
         hashSet.add(CategoryResource.class);
+        hashSet.add(UserResource.class);
 
         hashSet.add(DebugExceptionMapper.class);
         return hashSet;

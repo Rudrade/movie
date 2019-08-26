@@ -23,7 +23,7 @@ public class MovieResource {
     }
 
     @POST
-    @Path("add")
+    @Path("create")
     @Produces(MediaType.APPLICATION_XML)
     @Consumes(MediaType.APPLICATION_XML)
     public Response create(Movie movie) {

@@ -1,31 +1,32 @@
-// TODO: Adicionar tabela sql e mapear esta entity
-
 package com.example.movie.model;
 
 import javax.persistence.*;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
+@Entity
+@Table(name = "User")
+@XmlRootElement
 @XmlType(propOrder = {
         "id",
         "username",
-        "password",
-        "occupation"
+        "password"
 })
-@Entity
-@Table(name = "Users")
-@XmlRootElement
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID", nullable = false, unique = true)
+    @Column(name = "id", unique = true, nullable = false)
+    @XmlElement
     private int id;
-    @Column(name = "USERNAME", nullable = false, unique = true)
+
+    @Column(name = "username", unique = true, nullable = false)
+    @XmlElement
     private String username;
-    @Column(name = "PASSWORD", nullable = false)
+
+    @Column(name = "password", unique = true, nullable = false)
+    @XmlElement
     private String password;
-    @JoinColumn(name = "ROLE_ID",nullable = false)
-    private Occupation occupation;
 
     public int getId() {
         return id;
@@ -49,13 +50,5 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public Occupation getOccupation() {
-        return occupation;
-    }
-
-    public void setOccupation(Occupation occupation) {
-        this.occupation = occupation;
     }
 }

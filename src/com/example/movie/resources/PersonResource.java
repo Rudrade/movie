@@ -51,6 +51,7 @@ public class PersonResource {
             dao.update(person);
             return Response.status(200).build();
         } catch (Exception e) {
+            e.printStackTrace();
             return Response.status(404).build();
         }
     }

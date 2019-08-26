@@ -1,5 +1,7 @@
 package com.example.movie.model;
 
+import org.hibernate.annotations.DynamicUpdate;
+
 import javax.persistence.*;
 import javax.xml.bind.annotation.*;
 import java.util.HashSet;

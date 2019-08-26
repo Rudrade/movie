@@ -1,6 +1,7 @@
 package com.example.movie.model;
 
 import com.example.movie.util.LocalDateAdapter;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import javax.xml.bind.annotation.*;
@@ -22,6 +23,7 @@ import java.util.Set;
 @Table(name = "person")
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.NONE)
+@DynamicUpdate
 public class Person {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -16,5 +16,6 @@
         <mapping class="com.example.movie.model.Occupation"/>
         <mapping class="com.example.movie.model.Person"/>
         <mapping class="com.example.movie.model.Category"/>
+        <mapping class="com.example.movie.model.User"/>
     </session-factory>
 </hibernate-configuration>
