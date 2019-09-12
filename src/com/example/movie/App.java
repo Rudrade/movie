@@ -1,4 +1,3 @@
-// TODO: Commentar tudo
 package com.example.movie;
 
 import com.example.movie.resources.*;

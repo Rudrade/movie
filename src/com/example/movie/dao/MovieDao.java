@@ -13,7 +13,6 @@ import java.util.List;
 public class MovieDao {
     private final SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 
-    // Method to insert a movie into the database
     @Transactional
     public Movie insert(Movie movie) {
         Session session = sessionFactory.openSession();
@@ -33,7 +32,6 @@ public class MovieDao {
         return movie;
     }
 
-    // Method to delete a movie from the database
     @Transactional
     public void deleteById(int id) throws NotFound {
         Movie movie = getById(id);
@@ -48,7 +46,6 @@ public class MovieDao {
         }
     }
 
-    // Method that return the movie given an id
     @Transactional
     public Movie getById(int id) throws NotFound {
         Session session = sessionFactory.openSession();
@@ -61,7 +58,6 @@ public class MovieDao {
         }
     }
 
-    // Method that returns all movies in the DB
     @Transactional
     public List<Movie> getAll() {
         Session session = sessionFactory.openSession();
@@ -70,6 +66,7 @@ public class MovieDao {
         return movieList;
     }
 
+    // Method to get a movie title given an certain word
     @Transactional
     public List<Movie> getByKeyword(String keyword) throws NotFound {
         String sql = "FROM Movie m WHERE m.title LIKE '%" + keyword + "%'";

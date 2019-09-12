@@ -1,9 +1,7 @@
 package com.example.movie.model;
 
 import javax.persistence.*;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.*;
 
 @Entity
 @Table(name = "User")
@@ -11,8 +9,10 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(propOrder = {
         "id",
         "username",
-        "password"
+        "password",
+        "role"
 })
+@XmlAccessorType(XmlAccessType.FIELD)
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,6 +27,11 @@ public class User {
     @Column(name = "password", unique = true, nullable = false)
     @XmlElement
     private String password;
+
+    @ManyToOne
+    @JoinColumn(name = "role_id", nullable = false)
+    @XmlElement
+    private Role role;
 
     public int getId() {
         return id;
@@ -50,5 +55,14 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    @XmlTransient
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 }

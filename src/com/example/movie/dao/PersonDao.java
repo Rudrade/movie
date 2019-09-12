@@ -69,6 +69,7 @@ public class PersonDao {
         session.close();
     }
 
+    // Method to get a person first name given an certain word
     @Transactional
     public List<Person> search(String keyword) throws NotFound {
         String sql = "FROM Person p WHERE p.firstName LIKE '%" + keyword + "%' OR p.lastName LIKE '%" + keyword + "%'";

@@ -4,7 +4,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
-// Class para debugar custom exceptions
+// Class to debug exceptions - make the exceptions tracer visible
 @Provider
 public class DebugExceptionMapper implements ExceptionMapper<Exception> {
 
