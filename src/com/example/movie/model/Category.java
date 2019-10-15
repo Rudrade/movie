@@ -9,7 +9,7 @@ import java.util.Set;
 @XmlRootElement
 @XmlType(propOrder = {
         "id",
-        "category"
+        "name"
 })
 @XmlAccessorType(XmlAccessType.NONE)
 public class Category {
@@ -20,33 +20,41 @@ public class Category {
     private int id;
 
     @XmlElement
-    @Column(name = "category", nullable = false, unique = true)
-    private String category;
+    @Column(name = "name", unique = true)
+    private String name;
 
-    @ManyToMany(mappedBy = "categories")
+    @ManyToMany(mappedBy = "categories", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<Movie> movies;
 
     public int getId() {
-        return id;
+        return this.id;
     }
 
     public void setId(int id) {
         this.id = id;
     }
 
-    public String getCategory() {
-        return category;
+    public String getName() {
+        return this.name;
     }
 
-    public void setCategory(String category) {
-        this.category = category;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Set<Movie> getMovies() {
-        return movies;
+        return this.movies;
     }
 
     public void setMovies(Set<Movie> movies) {
         this.movies = movies;
+    }
+
+    @Override
+    public String toString() {
+        return "Category{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
     }
 }

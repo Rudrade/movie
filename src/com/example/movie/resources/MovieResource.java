@@ -9,9 +9,12 @@ import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.List;
+import java.util.logging.Logger;
 
 @Path("movie")
 public class MovieResource {
+    private static final Logger LOGGER = Logger.getLogger("");
+
     private MovieDao dao = new MovieDao();
 
     @GET
@@ -27,19 +30,19 @@ public class MovieResource {
     @Produces(MediaType.APPLICATION_XML)
     @Consumes(MediaType.APPLICATION_XML)
     public Response create(Movie movie) {
-         Movie m = dao.insert(movie);
+        LOGGER.info("MOVIE --> " + movie.toString());
+        Movie m = dao.insert(movie);
         return Response.status(201).entity(m).build();
     }
 
     @DELETE
     @Path("delete/{id}")
-    @Produces(MediaType.TEXT_PLAIN)
     public Response deleteById(@PathParam("id") int id) {
         try {
             dao.deleteById(id);
             return Response.status(200).build();
-        } catch (NotFound movieNotFound) {
-            return Response.status(404).build();
+        } catch (Exception e) {
+            return Response.status(500).build();
         }
     }
 
@@ -52,6 +55,7 @@ public class MovieResource {
             dao.update(movie);
             return Response.status(200).build();
         } catch (Exception e) {
+            e.printStackTrace();
             return Response.status(404).build();
         }
     }
@@ -70,15 +74,14 @@ public class MovieResource {
     }
 
     @GET
-    @Path("search/{keyword}")
+    @Path("search")
     @Produces(MediaType.APPLICATION_XML)
-    public Response getByKeyword(@PathParam("keyword") String keyword) {
+    public Response getByKeyword(@QueryParam("keyword") String keyword) {
         try {
-            List<Movie> movieList = dao.getByKeyword(keyword);
+            List<Movie> movieList = dao.getByKeyword(keyword.trim());
             GenericEntity entity = new GenericEntity<List<Movie>>(movieList){};
             return Response.status(Response.Status.OK).entity(entity).build();
         } catch (NotFound e) {
-            e.printStackTrace();
             return Response.status(404).build();
         }
     }

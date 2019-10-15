@@ -1,24 +1,23 @@
 package com.example.movie.model;
 
-import org.hibernate.annotations.DynamicUpdate;
-
 import javax.persistence.*;
-import javax.xml.bind.annotation.*;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
 
 @Entity
 @Table(name = "Country")
 @XmlRootElement
 @XmlType(propOrder = {
         "id",
-        "country"})
+        "name"})
 public class Country {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, unique = true)
     private int id;
 
-    @Column(name = "country", nullable = false, unique = true)
-    private String country;
+    @Column(name = "name", nullable = false, unique = true)
+    private String name;
 
     public int getId() {
         return id;
@@ -28,11 +27,11 @@ public class Country {
         this.id = id;
     }
 
-    public String getCountry() {
-        return country;
+    public String getName() {
+        return name;
     }
 
-    public void setCountry(String country) {
-        this.country = country;
+    public void setName(String name) {
+        this.name = name;
     }
 }

@@ -9,12 +9,16 @@ import org.hibernate.query.Query;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.logging.Logger;
 
 public class MovieDao {
+    private static final Logger LOGGER = Logger.getAnonymousLogger();
+
     private final SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 
     @Transactional
     public Movie insert(Movie movie) {
+        LOGGER.info("MOVIE --> " + movie.getCategories().iterator().next().toString());
         Session session = sessionFactory.openSession();
         session.beginTransaction();
         session.save(movie);
@@ -25,6 +29,7 @@ public class MovieDao {
 
     @Transactional
     public Movie update(Movie movie) {
+        LOGGER.info("MOVIE ---> " + movie.toString());
         Session session = sessionFactory.openSession();
         session.beginTransaction();
         session.update(movie);
@@ -33,17 +38,14 @@ public class MovieDao {
     }
 
     @Transactional
-    public void deleteById(int id) throws NotFound {
-        Movie movie = getById(id);
-        if (movie != null) {
-            Session session = sessionFactory.openSession();
-            session.beginTransaction();
-            session.delete(movie);
-            session.getTransaction().commit();
-            session.close();
-        } else {
-            throw new NotFound();
-        }
+    public void deleteById(int id) {
+        Session session = sessionFactory.openSession();
+        Query query = session.createQuery("DELETE FROM Movie WHERE id = :id");
+        query.setParameter("id", id);
+        session.beginTransaction();
+        query.executeUpdate();
+        session.getTransaction().commit();
+        session.close();
     }
 
     @Transactional

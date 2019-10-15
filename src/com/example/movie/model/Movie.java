@@ -1,7 +1,6 @@
 package com.example.movie.model;
 
 import com.example.movie.util.LocalDateAdapter;
-import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import javax.xml.bind.annotation.*;
@@ -51,7 +50,7 @@ public class Movie {
     private Set<Person> persons;
 
     @XmlElement
-    @ManyToOne(fetch = FetchType.EAGER, targetEntity = Country.class)
+    @ManyToOne(fetch = FetchType.EAGER, targetEntity = Country.class, cascade = CascadeType.ALL)
     @JoinColumn(name = "country_id")
     private Country country;
 
@@ -113,10 +112,23 @@ public class Movie {
 
     @XmlTransient
     public Set<Category> getCategories() {
-        return categories;
+        return this.categories;
     }
 
     public void setCategories(Set<Category> categories) {
         this.categories = categories;
+    }
+
+    @Override
+    public String toString() {
+        return "Movie{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", releaseDate=" + releaseDate +
+                ", persons=" + persons +
+                ", country=" + country.getName() +
+                ", categories=" + categories +
+                '}';
     }
 }
